@@ -1,0 +1,273 @@
+{
+  "lanes": [
+    "Student UI",
+    "TypeScript host",
+    "Agent tool",
+    "Specialists",
+    "Classroom files"
+  ],
+  "arrows": [
+    [
+      0,
+      1,
+      "1. Validate the classroom scenario"
+    ],
+    [
+      1,
+      3,
+      "2. Define when and how a specialist works"
+    ],
+    [
+      1,
+      3,
+      "3. Choose child tools and model"
+    ],
+    [
+      1,
+      2,
+      "4. Attach definitions and enable Agent"
+    ],
+    [
+      1,
+      2,
+      "5. Observe a native delegation"
+    ],
+    [
+      2,
+      3,
+      "6. Observe a real specialist start"
+    ],
+    [
+      3,
+      4,
+      "7. Constrain reads and test execution"
+    ],
+    [
+      3,
+      0,
+      "8. Correlate child tools with the Agent call"
+    ],
+    [
+      3,
+      0,
+      "9. Separate child text from parent output"
+    ],
+    [
+      3,
+      1,
+      "10. Recognize the Agent tool return"
+    ],
+    [
+      3,
+      1,
+      "11. Capture native child completion"
+    ],
+    [
+      1,
+      4,
+      "12. Observe filesystem agent definitions"
+    ],
+    [
+      1,
+      4,
+      "13. Verify the fixture remains unchanged"
+    ]
+  ],
+  "steps": [
+    {
+      "number": 1,
+      "title": "Validate the classroom scenario",
+      "source": "src/modes.ts",
+      "code": "export function validateConfig(value: unknown): RunConfig {\n  const c = value as Record<string, unknown>;\n  if (!c || typeof c !== \"object\" || !MODES.includes(c.mode as never))\n    throw new Error(\"Choose a listed subagent experiment.\");\n  if (Object.keys(c).some((k) => k !== \"mode\"))\n    throw new Error(\"Only the classroom mode can be configured.\");\n  return { mode: c.mode as RunConfig[\"mode\"] };",
+      "language": "typescript",
+      "explanation": "The browser selects a fixed experiment; it cannot inject agent definitions, model IDs, task prompts or arbitrary paths.",
+      "firstLine": 3,
+      "lastLine": 9,
+      "anchors": [
+        "export function validateConfig(value: unknown): RunConfig {"
+      ],
+      "sourceSHA256": "3504ebb05190037dd3c088da3c6743efb8efdd49c22050e268d82d1ec0116a28",
+      "narration": "Step 1. The browser selects a fixed experiment; it cannot inject agent definitions, model IDs, task prompts or arbitrary paths. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 2,
+      "title": "Define when and how a specialist works",
+      "source": "src/agents.ts",
+      "code": "\"code-reviewer\": {\n      description:\n        \"Read-only classroom code reviewer. Use to inspect auth.cjs for the deliberately flawed role check.\",\n      prompt:\n        \"Read auth.cjs once. Identify why not-admin is incorrectly accepted. Do not modify files or run commands. Report under 50 words.\",",
+      "language": "typescript",
+      "explanation": "description guides specialist selection; prompt defines its role and behavior. These required fields serve different purposes.",
+      "firstLine": 4,
+      "lastLine": 8,
+      "anchors": [
+        "\"code-reviewer\": {"
+      ],
+      "sourceSHA256": "fc0b6b808f82baece37ba7d5107ee9746bc7d496ad72ba0d2ec8df1c86cfff13",
+      "narration": "Step 2. description guides specialist selection; prompt defines its role and behavior. These required fields serve different purposes. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 3,
+      "title": "Choose child tools and model",
+      "source": "src/agents.ts",
+      "code": "tools: [\"Read\", \"Grep\", \"Glob\"],\n      model: cheap ? \"haiku\" : \"inherit\",\n      maxTurns: 5,\n      effort: \"low\",",
+      "language": "typescript",
+      "explanation": "Give the reviewer a read-only tool set. The model comparison changes its model override while the task and fixture remain fixed.",
+      "firstLine": 9,
+      "lastLine": 12,
+      "anchors": [
+        "tools: [\"Read\", \"Grep\", \"Glob\"],"
+      ],
+      "sourceSHA256": "fc0b6b808f82baece37ba7d5107ee9746bc7d496ad72ba0d2ec8df1c86cfff13",
+      "narration": "Step 3. Give the reviewer a read-only tool set. The model comparison changes its model override while the task and fixture remain fixed. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 4,
+      "title": "Attach definitions and enable Agent",
+      "source": "src/agent.ts",
+      "code": "agents:\n        c.mode === \"filesystem\" || c.mode === \"builtin\"\n          ? undefined\n          : definitions(cheap),\n      tools: [\"Agent\", \"Read\", \"Grep\", \"Glob\", \"Bash\"],\n      allowedTools: [\"Agent\", \"Read\", \"Grep\", \"Glob\", \"Bash\"],\n      permissionMode: \"dontAsk\",\n      settingSources: [\"project\"],",
+      "language": "typescript",
+      "explanation": "Programmatic modes pass the agents option and allow the actual Agent tool. Filesystem and built-in modes omit programmatic definitions.",
+      "firstLine": 100,
+      "lastLine": 107,
+      "anchors": [
+        "agents:"
+      ],
+      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "narration": "Step 4. Programmatic modes pass the agents option and allow the actual Agent tool. Filesystem and built-in modes omit programmatic definitions. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 5,
+      "title": "Observe a native delegation",
+      "source": "src/agent.ts",
+      "code": "if (!parentId && (b.name === \"Agent\" || b.name === \"Task\")) {\n                delegations.push(record);\n                observe(\"delegation\", record);\n              } else if (parentId) {\n                childTools.push(record);",
+      "language": "typescript",
+      "explanation": "Detect top-level Agent tool-use blocks and retain their actual IDs and delegation inputs. A parent answer alone is not proof of delegation.",
+      "firstLine": 212,
+      "lastLine": 216,
+      "anchors": [
+        "if (!parentId && (b.name === \"Agent\" || b.name === \"Task\")) {"
+      ],
+      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "narration": "Step 5. Detect top-level Agent tool-use blocks and retain their actual IDs and delegation inputs. A parent answer alone is not proof of delegation. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 6,
+      "title": "Observe a real specialist start",
+      "source": "src/agent.ts",
+      "code": "if (i.hook_event_name === \"SubagentStart\") {\n                  const event = {\n                    kind: \"start\",\n                    atMs: Date.now() - started,\n                    agentId: i.agent_id,\n                    agentType: i.agent_type,\n                  };",
+      "language": "typescript",
+      "explanation": "Native start hooks identify the actual child and its start time. Independent start/stop events allow inspection of requested concurrency.",
+      "firstLine": 153,
+      "lastLine": 159,
+      "anchors": [
+        "if (i.hook_event_name === \"SubagentStart\") {"
+      ],
+      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "narration": "Step 6. Native start hooks identify the actual child and its start time. Independent start/stop events allow inspection of requested concurrency. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 7,
+      "title": "Constrain reads and test execution",
+      "source": "src/policy.ts",
+      "code": "if (name === \"Bash\")\n    return (\n      typeof i.command === \"string\" &&\n      i.command.trim() === \"node --test auth.test.cjs\"\n    );\n  if (name === \"Read\")\n    return (\n      typeof i.file_path === \"string\" &&",
+      "language": "typescript",
+      "explanation": "Permit only the exact classroom test command. Read and scan capabilities remain inside the isolated fixture project; edits are rejected.",
+      "firstLine": 17,
+      "lastLine": 24,
+      "anchors": [
+        "if (name === \"Bash\")"
+      ],
+      "sourceSHA256": "e6bff01ee8e1301933d70444b9cf03bf8c00e09969577b5cc549e45bec2426de",
+      "narration": "Step 7. Permit only the exact classroom test command. Read and scan capabilities remain inside the isolated fixture project; edits are rejected. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 8,
+      "title": "Correlate child tools with the Agent call",
+      "source": "src/agent.ts",
+      "code": "} else if (parentId) {\n                childTools.push(record);\n                observe(\"child-tool\", record);\n              } else observe(\"parent-tool\", record);",
+      "language": "typescript",
+      "explanation": "Child tool-use messages carry parent_tool_use_id. Correlate the nested activity with the originating Agent tool ID.",
+      "firstLine": 215,
+      "lastLine": 218,
+      "anchors": [
+        "} else if (parentId) {"
+      ],
+      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "narration": "Step 8. Child tool-use messages carry parent_tool_use_id. Correlate the nested activity with the originating Agent tool ID. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 9,
+      "title": "Separate child text from parent output",
+      "source": "src/agent.ts",
+      "code": "if (b.type === \"text\") {\n              if (parentId) observe(\"child-text\", { parentId, text: b.text });\n              else emit({ type: \"answer\", text: redact(b.text) });\n            }\n          }",
+      "language": "typescript",
+      "explanation": "Forwarded child text is shown in host telemetry; parent assistant text is rendered separately. Host observability is not the parent model\u2019s full context.",
+      "firstLine": 220,
+      "lastLine": 224,
+      "anchors": [
+        "if (b.type === \"text\") {"
+      ],
+      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "narration": "Step 9. Forwarded child text is shown in host telemetry; parent assistant text is rendered separately. Host observability is not the parent model\u2019s full context. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 10,
+      "title": "Recognize the Agent tool return",
+      "source": "src/agent.ts",
+      "code": "if (delegations.some((d) => d.id === b.tool_use_id)) {\n                reports.push(record);\n                observe(\"child-report\", record);\n              } else observe(\"tool-feedback\", record);\n            }",
+      "language": "typescript",
+      "explanation": "Record actual Agent returns. A foreground return may contain the final report; background launches can be receipts followed by native completion notifications.",
+      "firstLine": 237,
+      "lastLine": 241,
+      "anchors": [
+        "if (delegations.some((d) => d.id === b.tool_use_id)) {"
+      ],
+      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "narration": "Step 10. Record actual Agent returns. A foreground return may contain the final report; background launches can be receipts followed by native completion notifications. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 11,
+      "title": "Capture native child completion",
+      "source": "src/agent.ts",
+      "code": "if (i.hook_event_name === \"SubagentStop\") {\n                  const event = {\n                    kind: \"stop\",\n                    atMs: Date.now() - started,\n                    agentId: i.agent_id,\n                    agentType: i.agent_type,\n                    report: i.last_assistant_message ?? null,\n                  };",
+      "language": "typescript",
+      "explanation": "Record the native stop event and its final assistant message when provided. Preserve lifecycle timing instead of inventing progress.",
+      "firstLine": 172,
+      "lastLine": 179,
+      "anchors": [
+        "if (i.hook_event_name === \"SubagentStop\") {"
+      ],
+      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "narration": "Step 11. Record the native stop event and its final assistant message when provided. Preserve lifecycle timing instead of inventing progress. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 12,
+      "title": "Observe filesystem agent definitions",
+      "source": "src/workspace.ts",
+      "code": "join(cwd, \".claude\", \"agents\", \"file-reviewer.md\"),\n    \"---\\nname: file-reviewer\\ndescription: Classroom read-only code reviewer.\\ntools: Read\\nmodel: inherit\\n---\\nRead auth.cjs once. Identify the substring role-check bug. Do not modify files. Report under 50 words.\",\n  );",
+      "language": "typescript",
+      "explanation": "Create a real project Markdown agent definition. Project setting sources let the SDK discover it, while programmatic agents are omitted in that mode.",
+      "firstLine": 35,
+      "lastLine": 37,
+      "anchors": [
+        "join(cwd, \".claude\", \"agents\", \"file-reviewer.md\"),"
+      ],
+      "sourceSHA256": "1871daa7c18d56f009d68d4e3e80e0eb697ce14da1f56392e9e8bb5dd929b5dd",
+      "narration": "Step 12. Create a real project Markdown agent definition. Project setting sources let the SDK discover it, while programmatic agents are omitted in that mode. This source excerpt shows the corresponding application statement."
+    },
+    {
+      "number": 13,
+      "title": "Verify the fixture remains unchanged",
+      "source": "src/agent.ts",
+      "code": "fixtureUnchanged: before.hash === after.hash,\n      fixture: after,\n      observations,\n      exceptions,\n    };",
+      "language": "typescript",
+      "explanation": "Independently hash both fixture and tests after all reports. A successful reviewer result must not imply unobserved edits or fabricated test execution.",
+      "firstLine": 327,
+      "lastLine": 331,
+      "anchors": [
+        "fixtureUnchanged: before.hash === after.hash,"
+      ],
+      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "narration": "Step 13. Independently hash both fixture and tests after all reports. A successful reviewer result must not imply unobserved edits or fabricated test execution. This source excerpt shows the corresponding application statement."
+    }
+  ]
+}
