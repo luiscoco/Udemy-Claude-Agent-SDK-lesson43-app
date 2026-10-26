@@ -250,7 +250,7 @@ export async function runAgent(
         if (message.type === "result") {
           const record = {
             index: results.length + 1,
-            label: c.mode + (cheap ? " � Haiku reviewer" : " � parent result"),
+            label: c.mode + (cheap ? " · Haiku reviewer" : " · parent result"),
             sessionId: message.session_id,
             status: message.subtype,
             text:

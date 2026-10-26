@@ -131,7 +131,7 @@
       "anchors": [
         "agents:"
       ],
-      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "sourceSHA256": "7abdc240ed7fa46b8e02879eae01d74b00b0c407eed7f7bafc662175da563cc4",
       "narration": "Step 4. Programmatic modes pass the agents option and allow the actual Agent tool. Filesystem and built-in modes omit programmatic definitions. This source excerpt shows the corresponding application statement."
     },
     {
@@ -146,7 +146,7 @@
       "anchors": [
         "if (!parentId && (b.name === \"Agent\" || b.name === \"Task\")) {"
       ],
-      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "sourceSHA256": "7abdc240ed7fa46b8e02879eae01d74b00b0c407eed7f7bafc662175da563cc4",
       "narration": "Step 5. Detect top-level Agent tool-use blocks and retain their actual IDs and delegation inputs. A parent answer alone is not proof of delegation. This source excerpt shows the corresponding application statement."
     },
     {
@@ -161,7 +161,7 @@
       "anchors": [
         "if (i.hook_event_name === \"SubagentStart\") {"
       ],
-      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "sourceSHA256": "7abdc240ed7fa46b8e02879eae01d74b00b0c407eed7f7bafc662175da563cc4",
       "narration": "Step 6. Native start hooks identify the actual child and its start time. Independent start/stop events allow inspection of requested concurrency. This source excerpt shows the corresponding application statement."
     },
     {
@@ -191,7 +191,7 @@
       "anchors": [
         "} else if (parentId) {"
       ],
-      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "sourceSHA256": "7abdc240ed7fa46b8e02879eae01d74b00b0c407eed7f7bafc662175da563cc4",
       "narration": "Step 8. Child tool-use messages carry parent_tool_use_id. Correlate the nested activity with the originating Agent tool ID. This source excerpt shows the corresponding application statement."
     },
     {
@@ -206,7 +206,7 @@
       "anchors": [
         "if (b.type === \"text\") {"
       ],
-      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "sourceSHA256": "7abdc240ed7fa46b8e02879eae01d74b00b0c407eed7f7bafc662175da563cc4",
       "narration": "Step 9. Forwarded child text is shown in host telemetry; parent assistant text is rendered separately. Host observability is not the parent model\u2019s full context. This source excerpt shows the corresponding application statement."
     },
     {
@@ -221,7 +221,7 @@
       "anchors": [
         "if (delegations.some((d) => d.id === b.tool_use_id)) {"
       ],
-      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "sourceSHA256": "7abdc240ed7fa46b8e02879eae01d74b00b0c407eed7f7bafc662175da563cc4",
       "narration": "Step 10. Record actual Agent returns. A foreground return may contain the final report; background launches can be receipts followed by native completion notifications. This source excerpt shows the corresponding application statement."
     },
     {
@@ -236,7 +236,7 @@
       "anchors": [
         "if (i.hook_event_name === \"SubagentStop\") {"
       ],
-      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "sourceSHA256": "7abdc240ed7fa46b8e02879eae01d74b00b0c407eed7f7bafc662175da563cc4",
       "narration": "Step 11. Record the native stop event and its final assistant message when provided. Preserve lifecycle timing instead of inventing progress. This source excerpt shows the corresponding application statement."
     },
     {
@@ -266,7 +266,7 @@
       "anchors": [
         "fixtureUnchanged: before.hash === after.hash,"
       ],
-      "sourceSHA256": "3ff186f80189dc44ed43d2fae8fdd31ae5c33dcb385d9dcbcc54fafea465b0ca",
+      "sourceSHA256": "7abdc240ed7fa46b8e02879eae01d74b00b0c407eed7f7bafc662175da563cc4",
       "narration": "Step 13. Independently hash both fixture and tests after all reports. A successful reviewer result must not imply unobserved edits or fabricated test execution. This source excerpt shows the corresponding application statement."
     }
   ]

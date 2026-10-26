@@ -102,7 +102,7 @@ function show(e) {
             const d = e.record.detail, card = document.getElementById("child-" + d.agentId);
             if (card) {
                 card.querySelector(".child-status").textContent =
-                    "Stop observed � " +
+                    "Stop observed · " +
                         ((d.atMs - Number(card.dataset.start)) / 1000).toFixed(1) +
                         " s";
                 if (d.report)
